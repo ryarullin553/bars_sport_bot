@@ -7,9 +7,18 @@ load_dotenv()
 # Токен Telegram бота
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
+# Хост
+MAIN_HOST = os.getenv('MAIN_HOST')
+
 # API для получения файлов из Telegram
 TELEGRAM_FILE_API_PATH = os.getenv('TELEGRAM_FILE_API')
 TELEGRAM_FILE_API_URL = "{telegram_file_api_path}{bot_token}/{file_path}"
+
+# FITBIT API
+FITBIT_CLIENT_ID = os.getenv('FITBIT_CLIENT_ID')
+FITBIT_CLIENT_SECRET = os.getenv('FITBIT_CLIENT_SECRET')
+FITBIT_AUTHORIZATION_ENDPOINT = os.getenv('FITBIT_AUTHORIZATION_ENDPOINT')
+FITBIT_AUTHORIZATION_TOKEN_ENDPOINT = os.getenv('FITBIT_AUTHORIZATION_TOKEN_ENDPOINT')
 
 # Путь к файлу для хранения логов
 LOGGER_PATH = os.getenv('LOGGER_PATH')
