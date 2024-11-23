@@ -59,7 +59,7 @@ async def auth(code, verifier):
     else:
         return response.json()
 
-def get_today_activity(token, user_id):
+async def get_today_activity(token, user_id):
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/x-www-form-urlencoded",
