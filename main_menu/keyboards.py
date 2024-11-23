@@ -36,6 +36,32 @@ def main_menu() -> InlineKeyboardMarkup:
     return keyboard.as_markup()
 
 
+
+def events_menu() -> InlineKeyboardMarkup:
+    """Клавиатура отображающая кнопки главного меню"""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.add(
+        InlineKeyboardButton(
+            text=MainMenuButton.EVENTS_ALL,
+            callback_data=MainMenuButton.EVENTS_ALL
+        )
+    )
+    keyboard.add(
+        InlineKeyboardButton(
+            text=MainMenuButton.EVENTS_MY,
+            callback_data=MainMenuButton.EVENTS_MY
+        )
+    )
+    keyboard.add(
+        InlineKeyboardButton(
+            text=MainMenuButton.BACK_TO_MAIN_MENU,
+            callback_data=MainMenuButton.BACK_TO_MAIN_MENU
+        )
+    )
+    keyboard.adjust(1)
+    return keyboard.as_markup()
+
+
 def keyboard_from_array(array: list, page: int) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardBuilder()
     for button in array:
