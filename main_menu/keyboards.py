@@ -10,32 +10,20 @@ def main_menu() -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardBuilder()
     keyboard.add(
         InlineKeyboardButton(
-            text=MainMenuButton.SERVICE,
-            callback_data=MainMenuButton.SERVICE
+            text=MainMenuButton.EVENTS,
+            callback_data=MainMenuButton.EVENTS
         )
     )
     keyboard.add(
         InlineKeyboardButton(
-            text=MainMenuButton.BONUSES,
-            callback_data=MainMenuButton.BONUSES
+            text=MainMenuButton.RATING,
+            callback_data=MainMenuButton.RATING
         )
     )
     keyboard.add(
         InlineKeyboardButton(
-            text=MainMenuButton.INFORMATIONAL_RESOURCES,
-            callback_data=MainMenuButton.INFORMATIONAL_RESOURCES
-        )
-    )
-    keyboard.add(
-        InlineKeyboardButton(
-            text=MainMenuButton.COMMUNITIES_OF_INTEREST,
-            callback_data=MainMenuButton.COMMUNITIES_OF_INTEREST
-        )
-    )
-    keyboard.add(
-        InlineKeyboardButton(
-            text=MainMenuButton.FAQ,
-            callback_data=MainMenuButton.FAQ
+            text=MainMenuButton.ACTIVITIES,
+            callback_data=MainMenuButton.ACTIVITIES
         )
     )
     keyboard.add(
@@ -46,6 +34,31 @@ def main_menu() -> InlineKeyboardMarkup:
     )
     keyboard.adjust(1)
     return keyboard.as_markup()
+
+
+def keyboard_from_array(array: list, page: int) -> InlineKeyboardMarkup:
+    keyboard = InlineKeyboardBuilder()
+    for button in array:
+        keyboard.add(
+            InlineKeyboardButton(
+                text=button[1],
+                callback_data=button[0]
+            )
+        )
+
+    keyboard.add(
+        InlineKeyboardButton(
+            text='Назад',
+            callback_data=button[0]
+        ),
+        InlineKeyboardButton(
+            text='Вперед',
+            callback_data=button[0]
+        ),
+    )
+
+    return keyboard.as_markup()
+
 
 
 def communities_of_interest() -> InlineKeyboardMarkup:
