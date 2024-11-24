@@ -35,13 +35,13 @@ async def get_events(telegram_user_id):
 
 async def get_my_events(telegram_user_id):
     responce = requests.patch(f'{MAIN_HOST}/events/{telegram_user_id}/')
-    return responce.ok
+    return responce.json()['patch']
 
 
 async def add_to_event(telegram_user_id, event_id):
     payload = {'event_id': event_id}
     responce = requests.post(f'{MAIN_HOST}/events/{telegram_user_id}/', data=payload)
-    return responce.json()['patch']
+    return responce.ok
 
 
 async def get_activities(telegram_user_id):
@@ -50,10 +50,10 @@ async def get_activities(telegram_user_id):
 
 async def get_my_activities(telegram_user_id):
     responce = requests.patch(f'{MAIN_HOST}/activity/{telegram_user_id}/')
-    return responce.ok
+    return responce.json()['patch']
 
 
 async def add_to_activities(telegram_user_id, event_id):
     payload = {'event_id': event_id}
     responce = requests.post(f'{MAIN_HOST}/activity/{telegram_user_id}/', data=payload)
-    return responce.json()['patch']
+    return responce.ok
