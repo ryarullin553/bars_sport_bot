@@ -26,7 +26,6 @@ from main_menu.keyboards import main_menu, back_main_menu, events_menu, activiti
 main_menu_router = Router()
 class CustomCallback(CallbackData, prefix="event"):
     id: str
-    name: str
     type: str
 
 
@@ -102,9 +101,10 @@ async def event_handler(callback: types.CallbackQuery):
         )
         for event in events[:-1]:
             keyboard = InlineKeyboardBuilder()
-            keyboard.add(InlineKeyboardButton(text='Записаться',
-                                              callback_data=CustomCallback(type='event', id=event['id'],
-                                                                           name=event['name']).pack()))
+            keyboard.add(InlineKeyboardButton(
+                text='Записаться',
+                callback_data=CustomCallback(type='event', id=event['id']).pack())
+            )
             await callback.message.answer(
                 format_event(event),
                 disable_web_page_preview=True,
@@ -114,8 +114,7 @@ async def event_handler(callback: types.CallbackQuery):
 
         keyboard = InlineKeyboardBuilder()
         keyboard.add(InlineKeyboardButton(text='Записаться',
-                                          callback_data=CustomCallback(id=events[-1]['id'],
-                                                                       name=events[-1]['name'], type='event').pack()))
+                                          callback_data=CustomCallback(id=events[-1]['id'], type='event').pack()))
         keyboard.add(
             InlineKeyboardButton(
                 text=MainMenuButton.BACK_TO_MAIN_MENU,
@@ -310,15 +309,16 @@ async def rating_handler(callback: types.CallbackQuery):
 
     rating = rating['rating']
 
-    date_object = datetime.fromisoformat(rating[0][1].replace('Z', '+00:00'))
+    date_object = datetime.datetime.fromisoformat(
+        rating[0][1].replace('Z', '+00:00'))
     formatted_date = date_object.strftime('%d.%m.%Y г.')
     message_template = f'🏆 Рейтинг за {formatted_date}\n\n'
 
-    messages = [f"{i}. {rate[3]} {rate[2]} ({rate[4]}) сделал(а) {rate[0]} шагов"
-                for i, rate in enumerate(rating)]
+    messages = [
+        f"{i + 1}. {rate[3]} {rate[2]} ({rate[4]}) сделал(а) {rate[0]} шагов"
+        for i, rate in enumerate(rating)]
 
     main_rating = '\n'.join(messages)
-
     await callback.message.answer(
         message_template + main_rating,
         disable_web_page_preview=True,
