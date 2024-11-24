@@ -308,18 +308,17 @@ async def rating_handler(callback: types.CallbackQuery):
 
     rating = rating['rating']
 
-    message_template = 'Рейтинг за {}: \n{} ...\n\n Ваш рейтинг: {}'
+    date_object = datetime.fromisoformat(rating[0][1].replace('Z', '+00:00'))
+    formatted_date = date_object.strftime('%d.%m.%Y г.')
+    message_template = f'🏆 Рейтинг за {formatted_date}\n\n'
 
-    messages = [str(i[0]) + ': ' + ' '.join(i[1:-1]) + ': ' + str(i[-1]) for i in rating[:5]]
+    messages = [f"{i}. {rate[3]} {rate[2]} ({rate[4]}) сделал(а) {rate[0]} шагов"
+                for i, rate in enumerate(rating)]
 
     main_rating = '\n'.join(messages)
-    my_rating = str(rating[-1][0]) + ': ' + ' '.join(rating[-1][1:-1]) + ': ' + str(rating[-1][-1])
-
-    message = message_template.format((datetime.date.today() - datetime.timedelta(days=1)).isoformat(), main_rating,
-                                      my_rating)
 
     await callback.message.answer(
-        message,
+        message_template + main_rating,
         disable_web_page_preview=True,
         reply_markup=back_main_menu()
     )
