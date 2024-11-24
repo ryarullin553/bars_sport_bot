@@ -54,6 +54,6 @@ async def get_my_activities(telegram_user_id):
 
 
 async def add_to_activities(telegram_user_id, event_id):
-    payload = {'event_id': event_id}
+    payload = {'activity_id': event_id}
     responce = requests.post(f'{MAIN_HOST}/activity/{telegram_user_id}/', data=payload)
     return responce.ok

@@ -130,7 +130,7 @@ async def event_handler(callback: types.CallbackQuery):
         )
 
 
-@main_menu_router.callback_query(F.data == MainMenuButton.EVENTS_ALL)
+@main_menu_router.callback_query(F.data == MainMenuButton.EVENTS_MY)
 async def my_event_handler(callback: types.CallbackQuery):
     events = await get_my_events(callback.from_user.id)
 
@@ -234,7 +234,7 @@ async def activity_handler(callback: types.CallbackQuery):
         )
 
 
-@main_menu_router.callback_query(F.data == MainMenuButton.ACTIVITIES_ALL)
+@main_menu_router.callback_query(F.data == MainMenuButton.ACTIVITIES_MY)
 async def my_activity_handler(callback: types.CallbackQuery):
     events = await get_my_activities(callback.from_user.id)
 
