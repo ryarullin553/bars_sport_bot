@@ -1,4 +1,5 @@
-from datetime import datetime
+import datetime
+from typing import Union
 
 from aiogram import Router, F, types
 from aiogram.enums import ParseMode
@@ -17,7 +18,10 @@ from app_tools.telegram import format_event, format_activity
 from config import COMMON_CHAT_INVITE_LINK
 from loggers import user_logger
 from main_menu.constants import MainMenuMessage, MainMenuButton
-from main_menu.keyboards import main_menu, back_main_menu, events_menu
+from aiogram.filters import CommandStart, CommandObject
+from aiogram.utils.markdown import hlink
+
+from main_menu.keyboards import main_menu, back_main_menu, events_menu, activities_menu
 
 main_menu_router = Router()
 class CustomCallback(CallbackData, prefix="event"):
@@ -179,7 +183,7 @@ async def main_activity_handler(callback: types.CallbackQuery):
     await callback.message.answer(
         "Меню Активностей.",
         disable_web_page_preview=True,
-        reply_markup=events_menu()
+        reply_markup=activities_menu()
     )
 
 
@@ -282,13 +286,7 @@ async def activity_sign_up(callback: types.CallbackQuery, callback_data: CustomC
 async def account_handler(callback: types.CallbackQuery):
     user = await get_user(callback)
 
-    message = ('*Ваш аккаунт*\n\n'
-               '👤 ФИО: {}\n'
-               '🏢 БЦ: {}\n'
-               '🎂 Возраст: {}\n'
-               '⚧ Пол: {}\n'
-               '🚶‍♂️ Норма шагов на день: {}\n'
-               '📊 Процент выполнения нормы шагов: {}%')
+    message = 'Ваш аккаунт\n\nФИО:{}\nБЦ: {}\nВозраст: {}\nПол: {}\nНорма шагов на день: {}\nПроцент выполнения нормы шаго: {}%'
 
     formatted_message = message.format(
     ' '.join((user['name'], user['surname'], user['patronymic'])),
