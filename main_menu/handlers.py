@@ -1,24 +1,22 @@
-import datetime
-from typing import Union
+from datetime import datetime
 
 from aiogram import Router, F, types
 from aiogram.enums import ParseMode
+from aiogram.filters import CommandStart, CommandObject
 from aiogram.filters.callback_data import CallbackData
-from aiogram.methods import CreateChatInviteLink
-from aiogram.types import InlineKeyboardButton, CallbackQuery
+from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from aiogram.utils.payload import decode_payload
+from aiogram.utils.markdown import hlink
 
 from app_tools.fitbit import get_auth_link, auth
-from app_tools.server import get_user, update_verifyer_code, set_access_token, get_user_rating, get_events, \
-    get_my_events, add_to_event, get_my_activities, add_to_activities, get_activities
+from app_tools.server import get_user, update_verifyer_code, set_access_token, \
+    get_user_rating, get_events, \
+    get_my_events, add_to_event, get_my_activities, add_to_activities, \
+    get_activities
 from app_tools.telegram import format_event, format_activity
 from config import COMMON_CHAT_INVITE_LINK
 from loggers import user_logger
 from main_menu.constants import MainMenuMessage, MainMenuButton
-from aiogram.filters import CommandStart, CommandObject
-from aiogram.utils.markdown import hlink
-
 from main_menu.keyboards import main_menu, back_main_menu, events_menu
 
 main_menu_router = Router()
@@ -284,7 +282,13 @@ async def activity_sign_up(callback: types.CallbackQuery, callback_data: CustomC
 async def account_handler(callback: types.CallbackQuery):
     user = await get_user(callback)
 
-    message = 'Ваш аккаунт\n\nФИО:{}\nБЦ: {}\nВозраст: {}\nПол: {}\nНорма шагов на день: {}\nПроцент выполнения нормы шаго: {}%'
+    message = ('*Ваш аккаунт*\n\n'
+               '👤 ФИО: {}\n'
+               '🏢 БЦ: {}\n'
+               '🎂 Возраст: {}\n'
+               '⚧ Пол: {}\n'
+               '🚶‍♂️ Норма шагов на день: {}\n'
+               '📊 Процент выполнения нормы шагов: {}%')
 
     formatted_message = message.format(
     ' '.join((user['name'], user['surname'], user['patronymic'])),

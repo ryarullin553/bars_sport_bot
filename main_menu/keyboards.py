@@ -1,7 +1,8 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from config import PROFESSIONAL_COMMUNITIES_URL, INTEREST_COMMUNITIES_URL
+from config import PROFESSIONAL_COMMUNITIES_URL, INTEREST_COMMUNITIES_URL, \
+    COMMON_CHAT_INVITE_LINK
 from main_menu.constants import MainMenuButton
 
 
@@ -35,7 +36,7 @@ def main_menu() -> InlineKeyboardMarkup:
     keyboard.add(
         InlineKeyboardButton(
             text=MainMenuButton.MAIN_CHAT,
-            callback_data=MainMenuButton.MAIN_CHAT
+            url=COMMON_CHAT_INVITE_LINK
         )
     )
     keyboard.adjust(1)
