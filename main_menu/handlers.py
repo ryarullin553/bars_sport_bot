@@ -4,6 +4,7 @@ from typing import Union
 from aiogram import Router, F, types
 from aiogram.enums import ParseMode
 from aiogram.filters.callback_data import CallbackData
+from aiogram.methods import CreateChatInviteLink
 from aiogram.types import InlineKeyboardButton, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.payload import decode_payload
@@ -12,6 +13,7 @@ from app_tools.fitbit import get_auth_link, auth
 from app_tools.server import get_user, update_verifyer_code, set_access_token, get_user_rating, get_events, \
     get_my_events, add_to_event, get_my_activities, add_to_activities, get_activities
 from app_tools.telegram import format_event, format_activity
+from config import COMMON_CHAT_INVITE_LINK
 from loggers import user_logger
 from main_menu.constants import MainMenuMessage, MainMenuButton
 from aiogram.filters import CommandStart, CommandObject
@@ -290,7 +292,7 @@ async def account_handler(callback: types.CallbackQuery):
     user['age'],
     user['sex'],
     user['step_norm_day'],
-    int(100 * user['today_activity']/user['step_norm_day'])
+    int(100 * user['today_activity']/user['step_norm_day']) if 'today_activity' in user.keys() else 0
     )
 
     await callback.message.answer(
@@ -322,6 +324,16 @@ async def rating_handler(callback: types.CallbackQuery):
         reply_markup=back_main_menu()
     )
 
+
+@main_menu_router.callback_query(F.data == MainMenuButton.MAIN_CHAT)
+async def chat_handler(callback: types.CallbackQuery):
+
+    await callback.message.answer(
+        hlink('Ссылка на чат', COMMON_CHAT_INVITE_LINK),
+        disable_web_page_preview=True,
+        reply_markup=back_main_menu(),
+        parse_mode=ParseMode.HTML
+    )
 
 @main_menu_router.callback_query(F.data == MainMenuButton.BACK_TO_MAIN_MENU)
 async def rating_handler(callback: types.CallbackQuery):

@@ -32,6 +32,12 @@ def main_menu() -> InlineKeyboardMarkup:
             callback_data=MainMenuButton.ACCOUNT
         )
     )
+    keyboard.add(
+        InlineKeyboardButton(
+            text=MainMenuButton.MAIN_CHAT,
+            callback_data=MainMenuButton.MAIN_CHAT
+        )
+    )
     keyboard.adjust(1)
     return keyboard.as_markup()
 

@@ -10,6 +10,8 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 # Хост
 MAIN_HOST = os.getenv('MAIN_HOST')
 
+COMMON_CHAT_INVITE_LINK = os.getenv('COMMON_CHAT_INVITE_LINK')
+
 # API для получения файлов из Telegram
 TELEGRAM_FILE_API_PATH = os.getenv('TELEGRAM_FILE_API')
 TELEGRAM_FILE_API_URL = "{telegram_file_api_path}{bot_token}/{file_path}"
